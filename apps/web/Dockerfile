@@ -12,7 +12,7 @@ RUN bun install --frozen-lockfile
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
-COPY --from=deps /apps/node_modules ./node_modules
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 COPY .env .env
 
@@ -34,7 +34,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 RUN groupadd --system --gid 1001 nodejs
 RUN useradd --system --uid 1001 -g nodejs nextjs
 
-COPY --from=builder /apps/public ./public
+COPY --from=builder /app/public ./public
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
@@ -42,8 +42,8 @@ RUN chown nextjs:nodejs .next
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=nextjs:nodejs /apps/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /apps/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 

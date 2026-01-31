@@ -45,10 +45,10 @@ A modern property management dashboard built with Next.js, designed for landlord
 3. **Set up environment variables**
 
    ```bash
-   cp .env.example .env.local
+   cp .env.example .env
    ```
 
-   Edit `.env.local` and configure your backend API URL.
+   Edit `.env` and configure your backend API URL.
 
 4. **Run the development server**
 

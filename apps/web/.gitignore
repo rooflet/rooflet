@@ -23,7 +23,7 @@ lerna-debug.log*
 
 # Environment variables
 .env
-.env*.local
+.env
 .env.production
 
 # Vercel
