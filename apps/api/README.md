@@ -1,9 +1,7 @@
-# Rooflet Core
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://www.oracle.com/java/)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.6-brightgreen.svg)](https://spring.io/projects/spring-boot)
+# Rooflet API
 
 A lightweight, open-source property management API built with Spring Boot.
+
 ## Overview
 
 Rooflet Core is a backend REST API for managing rental properties, tenants, rent collections, expenses, and portfolios. It provides a solid foundation for building property management applications.
