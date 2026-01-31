@@ -2,17 +2,6 @@
 
 A modern property management dashboard built with Next.js, designed for landlords to manage portfolios, properties, tenants, rent collection, and expenses.
 
-## Features
-
-- 📊 **Dashboard Overview** - Real-time statistics and insights
-- 🏠 **Property Management** - Track and manage multiple properties
-- 👥 **Tenant Management** - Manage tenant information and leases
-- 💰 **Rent Collection** - Track rent payments and outstanding balances
-- 💸 **Expense Tracking** - Record and categorize property expenses
-- 📈 **Reports** - Generate reports for properties, tenants, and expenses
-- 🎯 **Portfolio Management** - Organize properties into portfolios
-- 🌓 **Dark Mode** - Built-in theme support
-
 ## Tech Stack
 
 - **Framework:** Next.js 15
