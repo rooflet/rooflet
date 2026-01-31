@@ -4,11 +4,7 @@
 
 .PHONY: api-dev
 api-dev: ## Run API in development mode (requires MySQL running)
-	cd apps/api && \
-	SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/rooflet_db?useSSL=false\&serverTimezone=UTC\&allowPublicKeyRetrieval=true \
-	SPRING_DATASOURCE_USERNAME=root \
-	SPRING_DATASOURCE_PASSWORD= \
-	./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+	cd apps/api && ./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
 
 # ============================================================================
 # Frontend Commands
