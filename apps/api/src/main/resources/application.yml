@@ -1,0 +1,46 @@
+# Spring Application Configuration
+spring:
+  application:
+    name: rooflet-core
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+  jpa:
+    hibernate:
+      ddl-auto: validate  # Validate entities against database schema
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: false
+
+# Session Configuration
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 31d
+
+# Management/Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+# Swagger/OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+  show-actuator: true
+
+# Rooflet Application Configuration
+rooflet:
+  market-listings:
+    max-watched-zip-codes: 100
