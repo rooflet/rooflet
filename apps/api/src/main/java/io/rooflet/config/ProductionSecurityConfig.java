@@ -53,9 +53,8 @@ public class ProductionSecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(Arrays.asList(
-                "http://192.168.12.159:7002",
-                "https://app.rooflet.io",
-                "https://*.vusercontent.net"
+                "http://localhost",
+                "https://app.rooflet.io"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
