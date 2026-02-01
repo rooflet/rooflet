@@ -18,10 +18,15 @@ COPY .env .env
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
-# Uncomment the following line in case you want to disable telemetry during the build.
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
+# Increase Node.js memory limit for the build
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
-RUN bun run build
+# Run the build with explicit output
+RUN echo "Starting Next.js build..." && \
+    bun run build && \
+    echo "Build completed successfully!"
 
 # Production image, copy all the files and run next
 FROM base AS runner
