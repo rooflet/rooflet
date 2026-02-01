@@ -2,6 +2,7 @@ package io.rooflet.config;
 
 import io.rooflet.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -21,6 +22,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +31,9 @@ import java.util.Arrays;
 public class DevSecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
+
+    @Value("${rooflet.cors.allowed-origins}")
+    private String allowedOrigins;
 
     @Bean("devSecurityFilterChain")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -62,7 +67,9 @@ public class DevSecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        // Parse comma-separated origins from application.yml
+        List<String> origins = Arrays.asList(allowedOrigins.split(","));
+        configuration.setAllowedOriginPatterns(origins);
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
