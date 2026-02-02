@@ -23,7 +23,7 @@ services:
 
   mysql:
     image: mysql:8.0
-    container_name: rooflet-mysql-test
+    container_name: rooflet-mysql
     restart: always
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
