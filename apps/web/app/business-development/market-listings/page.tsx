@@ -811,20 +811,63 @@ export default function MarketListingsPage() {
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-2">
                 <div className="space-y-2">
-                  {/* Financing Strategy - Compact */}
-                  <div className="space-y-1">
+                  {/* Financing Strategy - Compact & Efficient */}
+                  <div className="space-y-1.5">
                     <Label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
                       FINANCING STRATEGY
                     </Label>
-                    <div className="grid grid-cols-3 gap-1.5">
-                      <div className="space-y-0.5 col-span-2">
-                        <div className="flex items-center gap-1">
-                          <Label
-                            htmlFor="downPaymentType"
-                            className="text-[11px]"
-                          >
-                            Down Payment
-                          </Label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {/* Down Payment - Combined Input & Dropdown */}
+                      <div className="space-y-0.5">
+                        <Label htmlFor="downPayment" className="text-[11px]">
+                          Down Payment
+                        </Label>
+                        <div className="flex gap-1">
+                          {financingStrategy.downPaymentType === "percent" ? (
+                            <Input
+                              id="downPayment"
+                              type="number"
+                              min="0"
+                              max="100"
+                              value={downPaymentPercentInput}
+                              onChange={(e) =>
+                                setDownPaymentPercentInput(e.target.value)
+                              }
+                              onBlur={(e) =>
+                                setFinancingStrategy({
+                                  ...financingStrategy,
+                                  downPaymentPercent:
+                                    parseFloat(e.target.value) || 0,
+                                })
+                              }
+                              className="h-7 text-xs flex-1"
+                              placeholder="%"
+                            />
+                          ) : (
+                            <Input
+                              id="downPaymentAmount"
+                              type="text"
+                              value={downPaymentAmountInput}
+                              onChange={(e) =>
+                                setDownPaymentAmountInput(
+                                  formatCurrencyInput(e.target.value),
+                                )
+                              }
+                              onBlur={(e) => {
+                                const formatted = ensureDecimalPadding(
+                                  e.target.value,
+                                );
+                                setDownPaymentAmountInput(formatted);
+                                setFinancingStrategy({
+                                  ...financingStrategy,
+                                  downPaymentAmount:
+                                    parseCurrencyToNumber(formatted) || undefined,
+                                });
+                              }}
+                              className="h-7 text-xs flex-1"
+                              placeholder="$200,000.00"
+                            />
+                          )}
                           <Select
                             value={financingStrategy.downPaymentType}
                             onValueChange={(value: "percent" | "amount") => {
@@ -849,7 +892,7 @@ export default function MarketListingsPage() {
                           >
                             <SelectTrigger
                               id="downPaymentType"
-                              className="h-5 text-[10px] w-16 ml-auto"
+                              className="h-7 text-xs w-16"
                             >
                               <SelectValue />
                             </SelectTrigger>
@@ -859,52 +902,39 @@ export default function MarketListingsPage() {
                             </SelectContent>
                           </Select>
                         </div>
-                        {financingStrategy.downPaymentType === "percent" ? (
-                          <Input
-                            id="downPayment"
-                            type="number"
-                            min="0"
-                            max="100"
-                            value={downPaymentPercentInput}
-                            onChange={(e) =>
-                              setDownPaymentPercentInput(e.target.value)
-                            }
-                            onBlur={(e) =>
-                              setFinancingStrategy({
-                                ...financingStrategy,
-                                downPaymentPercent:
-                                  parseFloat(e.target.value) || 0,
-                              })
-                            }
-                            className="h-7 text-xs"
-                            placeholder="%"
-                          />
-                        ) : (
-                          <Input
-                            id="downPaymentAmount"
-                            type="text"
-                            value={downPaymentAmountInput}
-                            onChange={(e) =>
-                              setDownPaymentAmountInput(
-                                formatCurrencyInput(e.target.value),
-                              )
-                            }
-                            onBlur={(e) => {
-                              const formatted = ensureDecimalPadding(
-                                e.target.value,
-                              );
-                              setDownPaymentAmountInput(formatted);
-                              setFinancingStrategy({
-                                ...financingStrategy,
-                                downPaymentAmount:
-                                  parseCurrencyToNumber(formatted) || undefined,
-                              });
-                            }}
-                            className="h-7 text-xs"
-                            placeholder="$200,000.00"
-                          />
-                        )}
                       </div>
+
+                      {/* Interest Rate */}
+                      <div className="space-y-0.5">
+                        <Label htmlFor="interestRate" className="text-[11px]">
+                          Interest Rate
+                        </Label>
+                        <Input
+                          id="interestRate"
+                          type="text"
+                          value={interestRateInput}
+                          onChange={(e) =>
+                            setInterestRateInput(
+                              formatPercentageInput(e.target.value),
+                            )
+                          }
+                          onBlur={(e) => {
+                            const formatted = ensurePercentagePadding(
+                              e.target.value,
+                            );
+                            setInterestRateInput(formatted);
+                            setFinancingStrategy({
+                              ...financingStrategy,
+                              interestRate:
+                                parsePercentageToNumber(formatted) || 0,
+                            });
+                          }}
+                          className="h-7 text-xs"
+                          placeholder="6.125%"
+                        />
+                      </div>
+
+                      {/* Loan Term */}
                       <div className="space-y-0.5">
                         <Label htmlFor="loanTerm" className="text-[11px]">
                           Loan Term
@@ -928,46 +958,24 @@ export default function MarketListingsPage() {
                           </SelectContent>
                         </Select>
                       </div>
-                    </div>
-                    <div className="space-y-0.5">
-                      <Label htmlFor="interestRate" className="text-[11px]">
-                        Interest Rate
-                      </Label>
-                      <Input
-                        id="interestRate"
-                        type="text"
-                        value={interestRateInput}
-                        onChange={(e) =>
-                          setInterestRateInput(
-                            formatPercentageInput(e.target.value),
-                          )
-                        }
-                        onBlur={(e) => {
-                          const formatted = ensurePercentagePadding(
-                            e.target.value,
-                          );
-                          setInterestRateInput(formatted);
-                          setFinancingStrategy({
-                            ...financingStrategy,
-                            interestRate:
-                              parsePercentageToNumber(formatted) || 0,
-                          });
-                        }}
-                        className="h-7 text-xs"
-                        placeholder="6.125%"
-                      />
+
+                      {/* Placeholder for future filters */}
+                      <div className="space-y-0.5">
+                        {/* Reserved space for additional financing options */}
+                      </div>
                     </div>
                   </div>
 
                   <Separator className="my-1.5" />
 
                   {/* Analytics Filters */}
-                  <div className="space-y-3">
+                  <div className="space-y-1.5">
                     <Label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">
                       ANALYTICS FILTERS
                     </Label>
-                    <div className="space-y-3 w-full lg:w-[400px]">
-                      <div className="flex items-center space-x-2 py-2">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                      {/* Checkbox Filter */}
+                      <div className="flex items-center space-x-2">
                         <input
                           type="checkbox"
                           id="hideWithoutCashflow"
@@ -981,37 +989,41 @@ export default function MarketListingsPage() {
                           htmlFor="hideWithoutCashflow"
                           className="text-xs font-normal cursor-pointer"
                         >
-                          Hide listings where CF/mo cannot be calculated
+                          Hide listings without CF/mo
                         </Label>
                       </div>
-                      <div className="space-y-1">
-                        <Label className="text-[11px]">Monthly Cashflow</Label>
-                        <div className="text-[11px] text-muted-foreground">
-                          {new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0,
-                          }).format(filterCashflowRange[0])}{" "}
-                          -{" "}
-                          {new Intl.NumberFormat("en-US", {
-                            style: "currency",
-                            currency: "USD",
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0,
-                          }).format(filterCashflowRange[1])}
+
+                      {/* Monthly Cashflow Range */}
+                      <div className="space-y-1.5 lg:col-span-2">
+                        <div className="flex items-center justify-between">
+                          <Label className="text-[11px]">Monthly Cashflow Range</Label>
+                          <div className="text-[11px] text-muted-foreground font-medium">
+                            {new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "USD",
+                              minimumFractionDigits: 0,
+                              maximumFractionDigits: 0,
+                            }).format(filterCashflowRange[0])}{" "}
+                            -{" "}
+                            {new Intl.NumberFormat("en-US", {
+                              style: "currency",
+                              currency: "USD",
+                              minimumFractionDigits: 0,
+                              maximumFractionDigits: 0,
+                            }).format(filterCashflowRange[1])}
+                          </div>
                         </div>
+                        <Slider
+                          min={0}
+                          max={2500}
+                          step={50}
+                          value={filterCashflowRange}
+                          onValueChange={(value) =>
+                            setFilterCashflowRange(value as [number, number])
+                          }
+                          className="w-full max-w-md"
+                        />
                       </div>
-                      <Slider
-                        min={0}
-                        max={2500}
-                        step={50}
-                        value={filterCashflowRange}
-                        onValueChange={(value) =>
-                          setFilterCashflowRange(value as [number, number])
-                        }
-                        className="w-full"
-                      />
                     </div>
                   </div>
 
