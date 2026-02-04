@@ -1030,7 +1030,7 @@ export default function MarketListingsPage() {
                   <Separator className="my-1.5" />
 
                   {/* Property Filters - Sub Accordion */}
-                  <Accordion type="single" collapsible>
+                  <Accordion type="single" collapsible defaultValue="property-filters">
                     <AccordionItem
                       value="property-filters"
                       className="border-0"
